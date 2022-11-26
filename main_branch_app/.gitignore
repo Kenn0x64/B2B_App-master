@@ -44,4 +44,5 @@ app.*.map.json
 /android/app/release
 
 .vscode
-lib/secret.dart
+lib/server.dart
+build
