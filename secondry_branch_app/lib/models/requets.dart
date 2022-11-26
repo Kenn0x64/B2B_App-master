@@ -3,13 +3,13 @@ import 'package:mongo_dart/mongo_dart.dart';
 import '../../server.dart';
 
 class Request {
-  
   final String? productName;
+  static const String siteName = "Tokyo";
   final double? productCapacity;
   final String? id;
   final String? product;
   final double requestedCapacity;
-  static final List<String> status = ['Rejected','Accepted','Pending'];
+  static final List<String> status = ['Rejected', 'Accepted', 'Pending'];
   final int currntStatus;
 
   static String collectionName = 'requests';
@@ -19,6 +19,7 @@ class Request {
     this.id,
     this.productName,
     this.productCapacity,
+    required siteName,
     required this.product,
     required this.currntStatus,
     required this.requestedCapacity,
@@ -31,6 +32,7 @@ class Request {
         productName: data['product']['productName'],
         productCapacity: data['product']['capacity'],
         currntStatus: data['status'],
+        siteName: data['siteName'],
         requestedCapacity: data['requestedCapacity']);
   }
 
@@ -38,6 +40,7 @@ class Request {
     if (needid) {
       return {
         '_id': id.toString(),
+        'siteName': siteName.toString(),
         'product': product.toString(),
         'status': currntStatus.toString(),
         'requestedCapacity': requestedCapacity.toString()
@@ -45,14 +48,14 @@ class Request {
     }
     return {
       'product': product.toString(),
+      'siteName': siteName.toString(),
       'status': currntStatus.toString(),
       'requestedCapacity': requestedCapacity.toString()
     };
   }
 
   Future<void> makeRequest() async {
-    HTTP hp = HTTP(
-        URI: '$server/requests/new', BODY: toJson(false));
+    HTTP hp = HTTP(URI: '$server/requests/new', BODY: toJson(false));
     await hp.POST();
   }
 

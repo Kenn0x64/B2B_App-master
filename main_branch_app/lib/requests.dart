@@ -44,6 +44,8 @@ class _Requests extends State<Requests> {
                     DataColumn(label: Text('Product Name')),
                     DataColumn(label: Text('Requested Capacity')),
                     DataColumn(label: Text('Avilable Capacity')),
+                    DataColumn(label: Text('Total Price')),
+                    DataColumn(label: Text('Site Name')),
                     DataColumn(label: Text('Status')),
                     DataColumn(label: Text('Accept')),
                     DataColumn(label: Text('Reject')),
@@ -88,6 +90,9 @@ class RequestData extends DataTableSource {
       DataCell(Text(data[index]['product']['productName'])),
       DataCell(Text("${data[index]['requestedCapacity']} Units")),
       DataCell(Text("${data[index]['product']['capacity']} Units")),
+      DataCell(Text(
+          "${data[index]['requestedCapacity'] * data[index]['product']['price']}\$")),
+      DataCell(Text("${data[index]['siteName']}")),
       DataCell(Text(Request.status.elementAt(data[index]['status']))),
       DataCell(IconButton(
         icon: const Icon(Icons.check),
@@ -100,7 +105,7 @@ class RequestData extends DataTableSource {
         onPressed: (() {
           Request.updateStatus(data[index]['_id'], 0);
         }),
-      )),
+      ))
     ]);
   }
 

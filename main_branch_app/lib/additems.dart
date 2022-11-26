@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main_branch/models/products.dart';
 import 'package:main_branch/widget/buttons.dart';
 import 'package:main_branch/widget/text.dart';
-// import 'package:mongo_dart/mongo_dart.dart';
+import './widget/deco.dart' as deco;
 
 class AddItem extends StatefulWidget {
   const AddItem({super.key});
@@ -17,10 +18,12 @@ class _AddItemState extends State<AddItem> {
 
   void op() async {
     if (_formkey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Added Product")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Added Product")));
       var name = _formkey.currentState!.fields['productName']!.value;
       var value = _formkey.currentState!.fields['capacity']!.value;
-      var p = Product(productName: name, capacity: value);
+      String price = _formkey.currentState!.fields['price']!.value;
+      var p = Product(productName: name, capacity: value, price: int.parse(price));
       await p.addItem();
       // await p.insert();
     }
@@ -35,11 +38,8 @@ class _AddItemState extends State<AddItem> {
             child: Column(
               children: [
                 Container(
-                    margin: const EdgeInsets.fromLTRB(0, 30, 200, 24),
+                    margin: const EdgeInsets.fromLTRB(0, 30, 200, 30),
                     child: MText('Add Product', 30, FontWeight.bold)),
-                Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 240, 0),
-                    child: MText('Product Name', 20, FontWeight.normal)),
                 Flexible(
                   fit: FlexFit.loose,
                   child: FormBuilder(
@@ -49,6 +49,8 @@ class _AddItemState extends State<AddItem> {
                       child: Column(
                         children: [
                           FormBuilderTextField(
+                            decoration: deco.Decoration.deco("Product Name",
+                                "Name", FontAwesomeIcons.productHunt),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return "Enter Product Name";
@@ -57,27 +59,32 @@ class _AddItemState extends State<AddItem> {
                             },
                             name: "productName",
                           ),
-                          const Flexible(
-                            fit: FlexFit.loose,
-                            child: SizedBox(
-                              height: 30,
-                            ),
+                          const SizedBox(
+                            height: 15,
                           ),
-                          Container(
-                              width: 200,
-                              margin: const EdgeInsets.fromLTRB(0, 0, 250, 0),
-                              child: MText(
-                                  'Product Capcity', 17, FontWeight.normal)),
+                          FormBuilderTextField(
+                            name: 'price',
+                            keyboardType: TextInputType.number,
+                            decoration: deco.Decoration.deco(
+                                "Price", "Price", FontAwesomeIcons.tag),
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
                           FormBuilderSlider(
+                              decoration: deco.Decoration.deco(
+                                  "Product Capacity",
+                                  "Capacity",
+                                  FontAwesomeIcons.boxesStacked),
                               activeColor:
                                   const Color.fromARGB(255, 82, 96, 206),
                               inactiveColor:
                                   const Color.fromARGB(255, 125, 134, 202),
-                              divisions: 99,
+                              divisions: 9999,
                               name: 'capacity',
                               initialValue: 1,
                               min: 1,
-                              max: 100),
+                              max: 10000),
                           Flexible(
                               fit: FlexFit.loose,
                               child: Container(
@@ -87,7 +94,8 @@ class _AddItemState extends State<AddItem> {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     MButton(
-                                      bg: const Color.fromARGB(255, 34, 48, 151),
+                                      bg: const Color.fromARGB(
+                                          255, 34, 48, 151),
                                       width: 90,
                                       name: "Reset",
                                       fun: () {
@@ -95,7 +103,13 @@ class _AddItemState extends State<AddItem> {
                                         FocusScope.of(context).unfocus();
                                       },
                                     ),
-                                    MButton(bg: const Color.fromARGB(255, 34, 48, 151),name: "Add", fun: op, width: 90,),
+                                    MButton(
+                                      bg: const Color.fromARGB(
+                                          255, 34, 48, 151),
+                                      name: "Add",
+                                      fun: op,
+                                      width: 90,
+                                    ),
                                   ],
                                 ),
                               ))

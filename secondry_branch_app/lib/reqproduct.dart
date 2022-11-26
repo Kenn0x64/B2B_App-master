@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main_branch/models/requets.dart';
 import 'package:main_branch/widget/buttons.dart';
 import 'package:main_branch/widget/text.dart';
 import 'package:main_branch/models/products.dart';
+import 'widget/deco.dart' as deco;
 
 class RequestProduct extends StatefulWidget {
   final Color bg;
@@ -40,9 +42,6 @@ class _RequestProductState extends State<RequestProduct> {
                     width: 200,
                     margin: const EdgeInsets.fromLTRB(0, 40, 160, 50),
                     child: MText('Request Product', 30, FontWeight.bold)),
-                Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 280, 0),
-                    child: MText('Product', 20, FontWeight.normal)),
                 Flexible(
                   fit: FlexFit.loose,
                   child: FormBuilder(
@@ -62,6 +61,10 @@ class _RequestProductState extends State<RequestProduct> {
                                     return const Text("NO PRODUCTS ");
                                   }
                                   return FormBuilderDropdown(
+                                    decoration: deco.Decoration.deco(
+                                          "Products",
+                                          "Choose Product",
+                                          FontAwesomeIcons.laptop),
                                       name: 'products',
                                       items: [
                                         ...(pdata.map((element) =>
@@ -83,20 +86,19 @@ class _RequestProductState extends State<RequestProduct> {
                               height: 30,
                             ),
                           ),
-                          Container(
-                              width: 200,
-                              margin: const EdgeInsets.fromLTRB(0, 0, 250, 0),
-                              child: MText('Request Product Capcity', 17,
-                                  FontWeight.normal)),
                           FormBuilderSlider(
+                              decoration: deco.Decoration.deco(
+                                  "Product Capacity",
+                                  "Capacity",
+                                  FontAwesomeIcons.boxesStacked),
                               activeColor: bg,
                               inactiveColor:
                                   const Color.fromARGB(255, 135, 108, 18),
-                              divisions: 99,
+                              divisions: 9999,
                               name: 'requestedCapacity',
                               initialValue: 1,
                               min: 1,
-                              max: 100),
+                              max: 10000),
                           Flexible(
                               fit: FlexFit.loose,
                               child: Container(
@@ -117,23 +119,27 @@ class _RequestProductState extends State<RequestProduct> {
                                         bg: bg,
                                         name: "Request",
                                         fun: () {
-                                          if (_formkey.currentState!.validate()) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(const SnackBar(
-                                                    content: Text(
-                                                        "Requested Product")));
-                                            var proid = _formkey.currentState!
-                                                .fields['products']!.value;
-                                            var reqCap = _formkey
-                                                .currentState!
-                                                .fields['requestedCapacity']!
-                                                .value;
-                                            Request req = Request(
-                                                product: proid,
-                                                requestedCapacity: reqCap,
-                                                currntStatus: 2);
-                                            req.makeRequest();
+                                          if (_formkey.currentState!
+                                                  .fields['products']!.value ==
+                                              null) {
+                                            return;
                                           }
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      "Requested Product")));
+                                          var proid = _formkey.currentState!
+                                              .fields['products']!.value;
+                                          var reqCap = _formkey
+                                              .currentState!
+                                              .fields['requestedCapacity']!
+                                              .value;
+                                          Request req = Request(
+                                            siteName: Request.siteName,                                            
+                                              product: proid,
+                                              requestedCapacity: reqCap,
+                                              currntStatus: 2);
+                                          req.makeRequest();
                                         }),
                                   ],
                                 ),

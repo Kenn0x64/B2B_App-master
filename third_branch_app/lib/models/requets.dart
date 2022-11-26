@@ -4,7 +4,7 @@ import '../../server.dart';
 
 class Request {
   final String? productName;
-  static const String siteName = "New York";
+  static const String siteName = "NewYork";
   final double? productCapacity;
   final String? id;
   final String? product;

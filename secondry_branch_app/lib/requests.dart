@@ -14,7 +14,7 @@ class Requests extends StatefulWidget {
 }
 
 class _Requests extends State<Requests> {
-  _Requests({ required this.bg});
+  _Requests({required this.bg});
   Color bg;
   Future<dynamic>? data;
 
@@ -35,14 +35,17 @@ class _Requests extends State<Requests> {
             future: data,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                 if ((snapshot.data as List<dynamic>).isEmpty) {
-                return const Center(heightFactor: 2,child: Text("NO REQUESTS"));
+                if ((snapshot.data as List<dynamic>).isEmpty) {
+                  return const Center(
+                      heightFactor: 2, child: Text("NO REQUESTS"));
                 }
                 return PaginatedDataTable(
                   source: RequestData(snapshot.data),
                   columns: const [
                     DataColumn(label: Text('Product Name')),
                     DataColumn(label: Text('Requested Capacity')),
+                    DataColumn(label: Text('Price Per Item')),
+                    DataColumn(label: Text('Total Price')),
                     DataColumn(label: Text('Status')),
                   ],
                   header: Container(
@@ -81,11 +84,13 @@ class RequestData extends DataTableSource {
 
   @override
   DataRow? getRow(int index) {
-      return DataRow(cells: <DataCell>[
-        DataCell(Text(data[index]['product']['productName'])),
-        DataCell(Text("${data[index]['requestedCapacity']} Units")),
-        DataCell(Text(Request.status.elementAt(data[index]['status']))),
-      ]);
+    return DataRow(cells: <DataCell>[
+      DataCell(Text(data[index]['product']['productName'])),
+      DataCell(Text("${data[index]['requestedCapacity']} Units")),
+      DataCell(Text("${data[index]['product']['price']}\$")),
+      DataCell(Text("${data[index]['product']['price']*data[index]['requestedCapacity']}\$")),
+      DataCell(Text(Request.status.elementAt(data[index]['status']))),
+    ]);
   }
 
   @override

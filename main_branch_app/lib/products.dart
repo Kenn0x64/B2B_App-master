@@ -35,6 +35,7 @@ class _Products extends State<Products> {
                 columns: const [
                   DataColumn(label: Text('Product Name')),
                   DataColumn(label: Text('Capacity')),
+                  DataColumn(label: Text('Price Per Item')),
                   DataColumn(label: Text('Delete')),
                 ],
                 header: const Center(child: Text('Products')),
@@ -89,7 +90,8 @@ class ProductsData extends DataTableSource {
   DataRow? getRow(int index) {
       return DataRow(cells: <DataCell>[
         DataCell(Text(x[index]['productName'])),
-        DataCell(Text(x[index]['capacity'].toString())),
+        DataCell(Text("${x[index]['capacity']} Units")),
+        DataCell(Text("${x[index]['price']}\$")),
         DataCell(IconButton(
           icon: const Icon(FontAwesomeIcons.trashCan),
           onPressed: () {

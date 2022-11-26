@@ -84,13 +84,14 @@ class RequestData extends DataTableSource {
 
   @override
   DataRow? getRow(int index) {
-    return DataRow(cells: <DataCell>[
-      DataCell(Text(data[index]['product']['productName'])),
-      DataCell(Text("${data[index]['requestedCapacity']} Units")),
-      DataCell(Text("${data[index]['product']['price']}\$")),
-      DataCell(Text("${data[index]['product']['price']*data[index]['requestedCapacity']}\$")),
-      DataCell(Text(Request.status.elementAt(data[index]['status']))),
-    ]);
+      return DataRow(cells: <DataCell>[
+        DataCell(Text(data[index]['product']['productName'])),
+        DataCell(Text("${data[index]['requestedCapacity']} Units")),
+        DataCell(Text("${data[index]['product']['price']}\$")),
+        DataCell(Text(
+            "${data[index]['product']['price'] * data[index]['requestedCapacity']}\$")),
+        DataCell(Text(Request.status.elementAt(data[index]['status']))),
+      ]);
   }
 
   @override
