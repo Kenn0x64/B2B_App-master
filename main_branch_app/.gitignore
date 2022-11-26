@@ -1,5 +1,5 @@
 .gitignore
 .env
 .*
-/home/ryu/Downloads/Ecom/main_branch_app/lib/server.dart
+lib/server.dart
 node_modules
