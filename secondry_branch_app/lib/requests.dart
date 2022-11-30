@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:main_branch/models/requets.dart';
 import 'package:main_branch/widget/buttons.dart';
+import './pay.dart';
 
 // ignore: must_be_immutable
 class Requests extends StatefulWidget {
@@ -73,6 +74,15 @@ class _Requests extends State<Requests> {
             });
           },
         ),
+        MButton(
+          bg: bg,
+          name: 'Add Payment',
+          fun: () async {
+            Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
+              return Pay();
+            })));
+          },
+        ),
       ],
     );
   }
@@ -88,7 +98,8 @@ class RequestData extends DataTableSource {
       DataCell(Text(data[index]['product']['productName'])),
       DataCell(Text("${data[index]['requestedCapacity']} Units")),
       DataCell(Text("${data[index]['product']['price']}\$")),
-      DataCell(Text("${data[index]['product']['price']*data[index]['requestedCapacity']}\$")),
+      DataCell(Text(
+          "${data[index]['product']['price'] * data[index]['requestedCapacity']}\$")),
       DataCell(Text(Request.status.elementAt(data[index]['status']))),
     ]);
   }

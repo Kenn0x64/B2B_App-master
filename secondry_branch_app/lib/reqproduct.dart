@@ -5,8 +5,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main_branch/models/requets.dart';
 import 'package:main_branch/widget/buttons.dart';
-import 'package:main_branch/widget/text.dart';
 import 'package:main_branch/models/products.dart';
+import 'widget/text.dart';
 import 'widget/deco.dart' as deco;
 
 class RequestProduct extends StatefulWidget {
@@ -61,7 +61,7 @@ class _RequestProductState extends State<RequestProduct> {
                                     return const Text("NO PRODUCTS ");
                                   }
                                   return FormBuilderDropdown(
-                                    decoration: deco.Decoration.deco(
+                                      decoration: deco.Decoration.deco(
                                           "Products",
                                           "Choose Product",
                                           FontAwesomeIcons.laptop),
@@ -135,7 +135,7 @@ class _RequestProductState extends State<RequestProduct> {
                                               .fields['requestedCapacity']!
                                               .value;
                                           Request req = Request(
-                                            siteName: Request.siteName,                                            
+                                              siteName: Request.siteName,
                                               product: proid,
                                               requestedCapacity: reqCap,
                                               currntStatus: 2);
